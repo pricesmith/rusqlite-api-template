@@ -1,0 +1,1 @@
+curl -F "metadata=@metadata.json" -F "packet=@packet.bin"  http://localhost:8000/packet
