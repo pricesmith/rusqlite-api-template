@@ -22,11 +22,9 @@ fn define_config() -> Config {
     Config {
         ip: "127.0.0.1".to_string(),
         port: 8000,
-        appname: "TLM Server".to_string(),
+        app_name: "TLM Server".to_string(),
         db: PathBuf::from("./tlm.db"),
         test_db: PathBuf::from("./test.db"),
-        file_tmp_path: Path::new("./temp").to_path_buf(),
-        file_path: Path::new("./files").to_path_buf(),
     }
 }
 

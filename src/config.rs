@@ -7,10 +7,5 @@ pub struct Config {
     pub port:               u16,
     pub db:                 PathBuf,
     pub test_db:            PathBuf,
-    pub mainsite:           String,
-    pub appname:            String,
-    pub altmainsite:        Vec<String>,
-    pub static_path:        Option<PathBuf>,
-    pub file_tmp_path:      PathBuf,
-    pub file_path:          PathBuf,
+    pub app_name:           String,
 }
