@@ -1,14 +1,11 @@
-use std::collections::HashMap;
-use std::sync::{Mutex, Arc, RwLock};
+// use std::io::prelude::*;
+// use std::collections::HashMap;
+use std::sync::{Mutex, Arc, /* RwLock */};
 use std::{fs, time::Duration};
 use std::error::Error;
-// use std::io::prelude::*;
-
 use rusqlite::{Statement, Result};
 use rusqlite::Connection as RusqliteConnection;
-
 use crate::errors::ServerError;
-
 use super::{migrations, single_value, connection::ConnectionPool};
 
 pub enum DbType {
@@ -21,7 +18,8 @@ const TEST_SINGLE_VALUE_DB:     &str = ":memory";
 const LEVEL_0_PACKET_DB:        &str = "level_0_packet";
 const SINGLE_VALUE_DB:          &str = "single_value";
 
-const NUM_DB: usize = 4;
+// const NUM_DB: usize = 4;
+const MEM_DB: &str = ":memory:";
 
 fn read_sql_from_file(path: &str) -> String {
     fs::read_to_string(path).expect(r#"Failed to read SQL file."#)
@@ -43,6 +41,9 @@ pub struct DbContext<'a> {
 impl<'a> DbContext<'a> {
 
     pub fn new() -> Self {
+        let conn_pool = &ConnectionPool::new(10, Duration::from_secs(30));
+        
+        
         DbContext { 
             conn_pool: &ConnectionPool::new(10, Duration::from_secs(30)),
             // db_map: HashMap::with_capacity(NUM_DB),
@@ -56,18 +57,9 @@ impl<'a> DbContext<'a> {
             get_all_single_values_statement: None,
             get_last_single_value_statement: None,
         }
+
+
     }
-
-    // fn add_database(&mut self, name: &str, path: &str, db_type: DbType) -> Result<(), AddDatabaseError> {
-    //     // Check if a database with the given name already exists
-    //     if self.db_map.contains_key(path) {
-    //         return Err(AddDatabaseError::DatabaseAlreadyExists);
-    //     }
-    //     todo!()
-    //     // Create a new connection for the database
-
-    //     // Add the connection to the queue and the map
-    // }
 
     fn get_connection() {}
 
@@ -76,7 +68,7 @@ impl<'a> DbContext<'a> {
     }
 
     pub fn apply_migrations(&mut self) -> Result<(), ServerError> {
-        let conn = self.conn_pool.get_connection()?;
+        let conn = self.conn_pool.get_connection(MEM_DB)?;
         Ok(migrations::update_db(&conn.inner))
     }
 
@@ -93,4 +85,15 @@ impl<'a> DbContext<'a> {
     pub fn execute_query(&mut self, query: &str, params: &[&dyn rusqlite::ToSql]) -> Result<usize, Box<dyn Error>> {
         todo!()
     }
+
+        // fn add_database(&mut self, name: &str, path: &str, db_type: DbType) -> Result<(), AddDatabaseError> {
+    //     // Check if a database with the given name already exists
+    //     if self.db_map.contains_key(path) {
+    //         return Err(AddDatabaseError::DatabaseAlreadyExists);
+    //     }
+    //     todo!()
+    //     // Create a new connection for the database
+
+    //     // Add the connection to the queue and the map
+    // }
 }
