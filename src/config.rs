@@ -9,7 +9,6 @@ pub struct Config {
     pub test_db:            PathBuf,
     pub mainsite:           String,
     pub appname:            String,
-    pub createdirs:         bool,
     pub altmainsite:        Vec<String>,
     pub static_path:        Option<PathBuf>,
     pub file_tmp_path:      PathBuf,
