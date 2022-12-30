@@ -1,6 +1,6 @@
 ip              = '127.0.0.1'
 port            = 8000
-db              = './outpost.db'
+db              = './tlm.db'
 mainsite        = 'http://localhost:8000'
 appname         = 'outpost'
 createdirs      = false
