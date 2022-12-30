@@ -23,14 +23,12 @@ fn define_config() -> Config {
         ip: "127.0.0.1".to_string(),
         port: 8000,
         mainsite: "http://localhost:8000".to_string(),
-        appname: "Outpost Ground Station - TLM Server".to_string(),
-        db: PathBuf::from("./outpost.db"),
-        createdirs: false,
-        altmainsite: [].to_vec(),
+        appname: "TLM Server".to_string(),
+        db: PathBuf::from("./tlm.db"),
+        test_db: PathBuf::from("./test.db"),
         static_path: None,
         file_tmp_path: Path::new("./temp").to_path_buf(),
         file_path: Path::new("./files").to_path_buf(),
-        error_index_note: None,
     }
 }
 

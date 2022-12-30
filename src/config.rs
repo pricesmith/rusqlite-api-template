@@ -6,6 +6,7 @@ pub struct Config {
     pub ip:                 String,
     pub port:               u16,
     pub db:                 PathBuf,
+    pub test_db:            PathBuf,
     pub mainsite:           String,
     pub appname:            String,
     pub createdirs:         bool,
@@ -13,5 +14,4 @@ pub struct Config {
     pub static_path:        Option<PathBuf>,
     pub file_tmp_path:      PathBuf,
     pub file_path:          PathBuf,
-    pub error_index_note:   Option<i64>,
 }
