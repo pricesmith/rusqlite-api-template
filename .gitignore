@@ -1,9 +1,5 @@
 .env
 
-# I store old code I'm not quite ready to let go of here-- sometimes...
-.graveyard
-
-
 # Compiled files and executables
 debug/
 target/
