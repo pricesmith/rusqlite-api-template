@@ -37,7 +37,7 @@ fn setup_routes(cfg: &mut ServiceConfig) {
             .service(
                 web::scope("/packets")
                     .route("", web::get().to(|| HttpResponse::Ok()))
-                    .route("", web::post().to(|| HttpResponse::Ok())),
+                    .route("", web::post().to(|| HttpResponse::Ok(packet::))),
             )
             .service(
                 web::resource("/packets/{id}")

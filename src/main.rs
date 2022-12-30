@@ -37,10 +37,21 @@ fn main() {
 
 #[actix_web::main]
 async fn err_main() -> Result<(), Box<dyn Error>> {
-    env_logger::init();
+    // initialize tracing
+    // tracing_subscriber::fmt::init();
+
+    // initialize logger
+    // env_logger::init();
     
+    // define server config
+    // this will also take care of initializing from cli
     let config = define_config();
 
+    // create db
+    // dotenv().ok();
+    // db::create_db("DATABSE_URL");
+
+    // start the server
     info!("Starting server...");
     server::start(config).await?;
 

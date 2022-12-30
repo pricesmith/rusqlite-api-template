@@ -1,25 +1,32 @@
-use crate::errors::ServerError;
-use crate::util::now;
-use barrel::backend::Sqlite;
-use barrel::{types, Migration};
-use rusqlite::{params, Connection};
 use std::error::Error;
 use std::path::Path;
-
-const LEVEL_0_TABLE: &str = "level_0";
-const SINGLE_VALUE_TABLE: &str = "single_value";
+use rusqlite::{params, Connection};
+use barrel::backend::Sqlite;
+use barrel::{types, Migration};
+use crate::errors::ServerError;
+use crate::util::now;
+use super::context::{
+    TLM_DB,
+    TLM_LEVEL_0_TABLE,
+    TLM_SINGLE_VALUE_TABLE,
+}}
 
 /// Up-to-date db
-pub fn update_db(conn: &Connection) -> Result<(), ServerError> {
-    initial_db(conn)
+pub fn apply_all(conn: &Connection) -> Result<(), ServerError> {
+    // apply migrations to tlm.db
+    initial_tlm_db(conn)
+
+    // apply migrations to other.db
+    // etc
+    // etc
 }
 
-/// Initial db migration
-fn initial_db(conn: &Connection) -> Result<(), ServerError> {
-
+/// Initial tlm.db migration
+fn initial_tlm_db(conn: &Connection) -> Result<(), ServerError> {
     let mut m = Migration::new();
-    create_initial_level_0_table(&mut m);
-    create_initial_single_value_table(&mut m);
+
+    create_initial_tlm_level_0_table(&mut m);
+    create_initial_tlm_single_value_table(&mut m);
 
     conn.execute_batch(m.make::<Sqlite>().as_str()); // ?
 
@@ -27,9 +34,8 @@ fn initial_db(conn: &Connection) -> Result<(), ServerError> {
 }
 
 /// Creates the `level_0` table in the database.
-fn create_initial_level_0_table(m: &mut Migration) {
-
-    m.create_table(LEVEL_0_TABLE, |t| {
+fn create_initial_tlm_level_0_table(m: &mut Migration) {
+    m.create_table(TLM_LEVEL_0_TABLE, |t| {
         t.add_column(
             "id",
             types::integer()
@@ -45,9 +51,8 @@ fn create_initial_level_0_table(m: &mut Migration) {
 }
 
 /// Creates the `single_value` table in the database.
-fn create_initial_single_value_table(m: &mut Migration) {
-
-    m.create_table(SINGLE_VALUE_TABLE, |t| {
+fn create_initial_tlm_single_value_table(m: &mut Migration) {
+    m.create_table(TLM_SINGLE_VALUE_TABLE, |t| {
         t.add_column("name", types::text().nullable(false).unique(true));
         t.add_column("value", types::text().nullable(false));
     });

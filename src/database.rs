@@ -7,7 +7,8 @@ pub mod sqlite;
 use context::DbContext;
 
 pub fn init() {
-    let db = DbContext::new();
+
+    let db = DbContext::new().init();
 
     // db.init_level_0_packet_store();
     // db.init_single_value_store();

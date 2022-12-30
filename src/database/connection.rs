@@ -26,7 +26,7 @@ impl ConnectionPool {
         }
     }
 
-    pub fn get_connection(&self, path: &str, db_type: DbType) -> Result<(Arc<RwLock<RusqliteConnection>>, DbType, AtomicBool, SystemTime), PopError>  {
+    pub fn get_connection(&self, path: &str) -> Result<(Arc<RwLock<RusqliteConnection>>, DbType, AtomicBool, SystemTime), PopError>  {
         loop {
             // Try to pop a connection from the queue
             if let Some((conn, in_use)) = self.queue.pop() {
